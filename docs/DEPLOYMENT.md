@@ -44,3 +44,14 @@ docker run --rm -v youtube-automation_media:/data -v $PWD/backups/<ts>:/b alpine
 ## Migrations
 The API container runs `alembic upgrade head` on start. After changing models:
 `cd backend && alembic revision --autogenerate -m "describe change"`.
+
+## Frontend on Vercel (optional)
+Vercel can host the **Next.js dashboard only**. The backend needs FFmpeg, long-running render workers, PostgreSQL and Redis, so run it on a VPS (Docker Compose above).
+
+1. Import the GitHub repo in Vercel and set **Root Directory** to `frontend`.
+2. Add the environment variable `BACKEND_URL=https://<your-backend-domain>` and redeploy. It is read at build time by the `/api` rewrite.
+3. Set `PUBLIC_BASE_URL` on the backend to the Vercel domain so OAuth redirects land on the dashboard. Add `<vercel-domain>/api/v1/auth/youtube/callback` as an authorized redirect URI in Google Cloud.
+
+**Hobby plan gotcha:** for private repos, Vercel blocks deployments of commits whose author is not the Vercel account owner ("commit author did not have contributing access"). Commit with the GitHub identity linked to Vercel, e.g. repo-local `git config user.email <id>+<user>@users.noreply.github.com`, make the repo public, or upgrade to Pro.
+
+**Deployment Protection:** new Vercel projects require a Vercel login to view deployments. Disable *Vercel Authentication* under Settings → Deployment Protection to make the dashboard public.
