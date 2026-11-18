@@ -15,3 +15,4 @@ backups/
 *.db-wal
 *.db-shm
 .vercel
+*.tsbuildinfo
