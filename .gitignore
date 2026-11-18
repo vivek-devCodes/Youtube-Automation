@@ -1,0 +1,16 @@
+.env
+*.env.local
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+node_modules/
+.next/
+frontend/test-results/
+frontend/playwright-report/
+storage/*
+!storage/.gitkeep
+backups/
+*.db
+*.db-wal
+*.db-shm
